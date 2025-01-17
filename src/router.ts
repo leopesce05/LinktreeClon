@@ -1,11 +1,13 @@
 import {Router} from 'express';
+import User,{IUser} from './models/User';
 
 const router = Router();
 
 // Autenticacion y registro
-router.post('/auth/register', (req, res) => {
+router.post('/auth/register', async (req, res) => {
     console.log(req.body)
-    res.send('register')
+    await User.create<IUser>(req.body);
+    return;
 })
 
 
