@@ -1,0 +1,22 @@
+{
+  "name": "linktreeclon",
+  "version": "1.0.0",
+  "description": "LinkTree CLON",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leopesce05/LinktreeClon.git"
+  },
+  "author": "Leonardo Pesce",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leopesce05/LinktreeClon/issues"
+  },
+  "homepage": "https://github.com/leopesce05/LinktreeClon#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
