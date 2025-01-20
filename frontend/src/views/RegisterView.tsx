@@ -7,6 +7,7 @@ import axios from 'axios';
 import type { RegisterForm } from '../types';
 import ErrorMessage from '../components/ErrorMessage';
 import api from '../config/axios';
+import API_ROUTES from '../config/apiRoutes';
 
 export default function RegisterView(){
 
@@ -24,7 +25,7 @@ export default function RegisterView(){
 
     const handleRegister =  async (formData : RegisterForm ) => {
         try {
-            const {data} = await api.post('/auth/register', formData);
+            const {data} = await api.post(API_ROUTES.registro, formData);
             toast.success(data.message);
             reset();
         } catch (error) {

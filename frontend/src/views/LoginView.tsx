@@ -6,7 +6,7 @@ import {toast} from 'sonner';
 import {LoginForm} from '../types';
 import ErrorMessage from '../components/ErrorMessage';
 import api from '../config/axios';
-
+import API_ROUTES from '../config/apiRoutes';
 
 export default function LoginView(){
 
@@ -19,7 +19,7 @@ export default function LoginView(){
 
     const handleLogin = async (formData : LoginForm) => {
         try {
-            const {data} = await api.post('/auth/login', formData);
+            const {data} = await api.post(API_ROUTES.inicioSesion, formData);
             toast.success(data.message);
         } catch (error) {
             if(axios.isAxiosError(error) && error.response){
