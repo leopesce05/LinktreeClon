@@ -36,7 +36,7 @@ export default function RegisterView(){
 
     return(
         <>
-            <h1 className='text-4xl text-white font-bold'>Registrate</h1>
+            <h1 className='text-4xl text-white font-bold text-center'>Registrate</h1>
         
             <form 
                 onSubmit={handleSubmit(handleRegister)}
@@ -59,18 +59,18 @@ export default function RegisterView(){
                     <label htmlFor="email" className="text-2xl text-slate-500">E-mail</label>
                     <input
                         id="email"
-                        type="text"
+                        type="email"
                         placeholder="Email de Registro"
                         className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
-                        {...register('email', {
-                            required: "El email es obligatorio",
+                        {...register("email", {
+                            required: "El Email es obligatorio",
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
                                 message: "E-mail no válido",
                             },
                         })}
                     />
-                    {errors.email && <ErrorMessage> {errors.email.message} </ErrorMessage>}
+                    {errors.email && (<ErrorMessage> {errors.email.message} </ErrorMessage>)}
                 </div>
                 <div className="grid grid-cols-1 space-y-3">
                     <label htmlFor="handle" className="text-2xl text-slate-500">Handle</label>

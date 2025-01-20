@@ -51,7 +51,7 @@ export const login = async (req : Request, res : Response) => {
         //Error Response
         res.status(404).json({
             success: false,
-            error : 'Usuario no existe'
+            error : 'No existe un usuario con ese mail'
         });
         return
     }
@@ -68,7 +68,7 @@ export const login = async (req : Request, res : Response) => {
     //Autenticacion exitosa
     res.status(200).json({
         success: true,
-        message: 'Autenticacion exitosa',
+        message: 'Inicio de sesion exitoso',
         data: user
     });
     return
