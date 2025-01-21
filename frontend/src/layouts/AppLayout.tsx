@@ -1,18 +1,27 @@
 import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import {useQuery} from "@tanstack/react-query";
+import { ArrowRightStartOnRectangleIcon} from '@heroicons/react/20/solid'
+import { Navigate } from "react-router-dom";
+
 import NavigationTabs from "../components/NavigationTabs";
 import { getUser } from "../api/DevTreeAPI";
+import Loader from "../components/Loader";
+
 export default function AppLayout() {
 
-    const { data, isLoading, error, isError } = useQuery( {
+    const { data, isLoading, isError } = useQuery( {
         queryFn: getUser,
         queryKey: ['user'],
         retry: 1,
         refetchOnWindowFocus: false
     })
-    console.log(data)
 
+    if(isLoading) return <Loader />
+    
+    if(isError) return <Navigate to='/auth/login' />
+    
+    console.log(data)
     
     return (
         <>
@@ -27,6 +36,7 @@ export default function AppLayout() {
                             onClick={() => {}}
                         >
                             Cerrar Sesión
+                            <ArrowRightStartOnRectangleIcon className="h-4 w-4 inline-block ml-2" />
                         </button>
                     </div>
                 </div>
@@ -45,7 +55,9 @@ export default function AppLayout() {
 
                     <div className="flex flex-col md:flex-row gap-10 mt-10">
                         <div className="flex-1 ">
-                            <Outlet />
+                            {isError
+                                ? <div>No esta autorizado</div> 
+                                : <Outlet />}
                         </div>
                         <div className="w-full md:w-96 bg-slate-800 px-5 py-10 space-y-6">
 

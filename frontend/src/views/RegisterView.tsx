@@ -7,7 +7,7 @@ import axios from 'axios';
 import type { RegisterForm } from '../types';
 import ErrorMessage from '../components/ErrorMessage';
 import api from '../config/axios';
-import API_ROUTES from '../config/apiRoutes';
+import API_ROUTES from '../api/apiRoutes';
 
 export default function RegisterView(){
 

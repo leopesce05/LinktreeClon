@@ -1,15 +1,12 @@
-import api from '../config/axios';
-import API_ROUTES from '../config/apiRoutes';
 import axios from 'axios'
 
+import api from '../config/axios';
+import { User } from '../types';
+import API_ROUTES from './apiRoutes';
+
 export const getUser = async () => {
-    const token = localStorage.getItem('AUTH_TOKEN');
     try {
-        const {data} = await api(API_ROUTES.getUser, {
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const {data} = await api<User>(API_ROUTES.getUser);
         return data
     } catch (error) {
         if(axios.isAxiosError(error) && error.response){
