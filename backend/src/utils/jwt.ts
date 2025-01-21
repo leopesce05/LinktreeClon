@@ -6,7 +6,3 @@ export const generateJWT =(payload : JwtPayload)=> {
     })
     return token
 }
-
-export const verifyJWT = (token  ) => {
-    console.log(token)
-}
