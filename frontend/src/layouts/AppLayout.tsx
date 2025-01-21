@@ -1,7 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import NavigationTabs from "../components/NavigationTabs";
-import {ArrowRightStartOnRectangleIcon} from '@heroicons/react/20/solid'
 export default function AppLayout() {
 
 
@@ -18,7 +17,6 @@ export default function AppLayout() {
                             onClick={() => {}}
                         >
                             Cerrar Sesión
-                            <ArrowRightStartOnRectangleIcon className="h-5 w-5 inline ml-2" />
                         </button>
                     </div>
                 </div>

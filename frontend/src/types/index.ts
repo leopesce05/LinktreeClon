@@ -9,6 +9,6 @@ export type RegisterForm = User & {
     password_confirmation: string
 }
 
-export type LoginForm =Pick<User, 'email'> & {
+export type LoginForm = Pick<User, 'email'> & {
     password:string
 }
