@@ -1,4 +1,4 @@
-import { getUser } from './handlers/index';
+import { getUser, updateProfile } from './handlers/index';
 import {Router, Request, Response} from 'express'
 import { body } from 'express-validator';
 import {createAccount, login} from './handlers'
@@ -30,5 +30,14 @@ router.post('/auth/login',
 router.get('/user',
     authenticate,
     getUser)
+
+router.patch('/user',
+    [
+    body('handle').notEmpty().withMessage('El handle no puede ir vacio'),
+    body('description').notEmpty().withMessage('La descripcion no puede ir vacia')
+    ],
+    handleInputErrors,
+    authenticate,
+    updateProfile)
 
 export default router;
