@@ -1,8 +1,10 @@
 import {useForm} from 'react-hook-form';
-import ErrorMessage from '../components/ErrorMessage';
-import {useQueryClient} from '@tanstack/react-query';
-import { ProfileForm, User } from '../types';
+import {useQueryClient, useMutation} from '@tanstack/react-query';
 
+import { ProfileForm, User } from '../types';
+import ErrorMessage from '../components/ErrorMessage';
+import { updateProfile } from '../api/DevTreeAPI';
+import {toast} from 'sonner';
 
 
 export default function ProfileView() {
@@ -15,8 +17,19 @@ export default function ProfileView() {
         description: data.description
     }});
     
-    const handleUserProfileForm=(formData : ProfileForm)=>{
-        console.log(formData);
+    const updateProfileMutation = useMutation({
+        mutationFn: updateProfile,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: () => {
+            toast.success("Perfil actualizado correctamente")
+            queryClient.invalidateQueries({queryKey:['user']})
+        }
+    })
+
+    const handleUserProfileForm = async (formData : ProfileForm)=>{
+        updateProfileMutation.mutate(formData)
     }
     
     return (
@@ -51,6 +64,7 @@ export default function ProfileView() {
                         required: "La descripción es obligatoria"
                     })}
                 />
+                {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage> }
             </div>
 
             <div className="grid grid-cols-1 gap-2">
