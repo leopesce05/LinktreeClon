@@ -21,7 +21,7 @@ export default function ProfileView() {
         mutationFn: updateProfile,
         onError: (error) => {
             toast.error(error.message)
-        },
+        }, 
         onSuccess: () => {
             toast.success("Perfil actualizado correctamente")
             queryClient.invalidateQueries({queryKey:['user']})
