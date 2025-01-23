@@ -49,7 +49,13 @@ export default function ProfileView() {
     })
 
     const handleUserProfileForm = async (formData : ProfileForm)=>{
-        updateProfileMutation.mutate(formData)
+        const usuario : User = {
+            ...data,
+            handle: formData.handle,
+            description: formData.description
+        }
+
+        updateProfileMutation.mutate(usuario)
     }
 
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {

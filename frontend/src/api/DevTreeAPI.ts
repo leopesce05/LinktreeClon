@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import api from '../config/axios';
-import { ProfileForm, User } from '../types';
+import { User } from '../types';
 import API_ROUTES from './apiRoutes';
 
 export const getUser = async () => {
@@ -15,7 +15,7 @@ export const getUser = async () => {
     }
 }
 
-export const updateProfile = async (formData : ProfileForm) => {
+export const updateProfile = async (formData : User) => {
     try {
         const {data} = await api.patch<User>(API_ROUTES.updateUser,formData);
         return data

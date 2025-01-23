@@ -89,7 +89,7 @@ export const getUser = async (req : Request, res : Response) => {
 
 export const updateProfile = async (req : Request, res : Response) => {
     try {
-        const {description, handle} = req.body
+        const {description, handle, links} = req.body
         const slugHandle = slug(handle, '')
         const handleExist = await User.findOne({handle: slugHandle})
     
@@ -106,6 +106,7 @@ export const updateProfile = async (req : Request, res : Response) => {
         const user = req.user
         user.description = description
         user.handle = slugHandle
+        user.links = links
         await user.save()
         res.status(200).json(user)
 
