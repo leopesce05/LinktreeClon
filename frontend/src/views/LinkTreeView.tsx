@@ -3,7 +3,7 @@ import { social } from "../data/social"
 import { useEffect, useState } from 'react'
 import { isValidUrl } from "../utils"
 import { toast } from 'sonner'
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { keepPreviousData, useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateProfile } from "../api/DevTreeAPI"
 import { SocialNetwork, User } from "../types"
 
@@ -13,7 +13,6 @@ export default function LinkTreeView() {
     const user : User = queryClient.getQueryData(['user'])!
 
     const [devTreeLinks, setDevTreeLinks] = useState(social)
-
 
     const {mutate} = useMutation({
         mutationFn : updateProfile,
@@ -38,30 +37,20 @@ export default function LinkTreeView() {
     }, [])
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const updatedLinks = devTreeLinks.map(link => {
-            if (link.name === e.target.name) {
-                if(isValidUrl(e.target.value)){
-                    return { ...link, url: e.target.value}
-
-                }else{
-                    return { ...link, url: e.target.value, enabled: false }
-                }
-            }
-            return link
-        })
+        const updatedLinks = devTreeLinks.map(link => 
+            link.name === e.target.name 
+                ? { ...link, url: e.target.value} 
+                : {...link}
+            )
         setDevTreeLinks(updatedLinks)
-        queryClient.setQueryData(['user'], (prevData : User) => {
-            return {
-                ...prevData,
-                links: JSON.stringify(updatedLinks)
-            }
-        })
     }
+
+    const links : SocialNetwork[] = JSON.parse(user.links)
 
     const handleEnableLink = (socialNetwork: string) => {
         const updatedLinks = devTreeLinks.map(link => {
             if (link.name === socialNetwork) {
-                if(isValidUrl(link.url)){
+                if(isValidUrl(link.url) || link.enabled){
                     return { ...link, enabled: !link.enabled }
                 }
                 toast.error('La URL no es valida')
@@ -69,10 +58,29 @@ export default function LinkTreeView() {
             return link
         })
         setDevTreeLinks(updatedLinks)
+
+        let updatedItems : SocialNetwork[] = []
+
+        const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork)
+        if(selectedSocialNetwork?.enabled){
+            const newItem : SocialNetwork = {
+                ...selectedSocialNetwork,
+                id: links.length
+            }
+            updatedItems = [...links, newItem]
+        }else{
+            updatedItems = links
+            .filter(link => link.name !== socialNetwork)
+            .map((item, index) => ({
+                ...item,
+                id: index,
+            }));
+        }
+        console.log(updatedItems)
         queryClient.setQueryData(['user'], (prevData : User) => {
             return {
                 ...prevData,
-                links: JSON.stringify(updatedLinks)
+                links: JSON.stringify(updatedItems)
             }
         })
     }

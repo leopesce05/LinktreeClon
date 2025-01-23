@@ -1,5 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
+import {DndContext, DragEndEvent, closestCenter} from '@dnd-kit/core'
+import {SortableContext,verticalListSortingStrategy, arrayMove} from '@dnd-kit/sortable'
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/20/solid';
 import NavigationTabs from "../components/NavigationTabs";
 import { SocialNetwork, User } from "../types";
@@ -52,17 +54,19 @@ export default function DevTree({ data }: DevTreeProps) {
                         <div className="flex-1 ">
                             <Outlet />
                         </div>
-                        <div className="w-full md:w-96 bg-slate-800 px-5 py-10 space-y-6">
+                        <div className="w-full md:w-96 bg-slate-800 px-5 py-10 space-y-6 rounded-2xl">
                             <p className="text-4xl text-center text-white">{data.handle}</p>
                             {data.image && 
                                 <img src={data.image} alt="Imagen de perfil" className="mx-auto max-w-[250px]" /> 
                             }
                             <p className="text-center text-lg font-black text-white">{data.description}</p>
+                            
                             <div className="mt-20 flex flex-col gap-5">
                                 {enabledLinks.map((link) => (
                                     <DevTreeLink key={link.name} link={link} />
                                 ))}
                             </div>
+                            
                         </div>
                     </div>
                 </main>
