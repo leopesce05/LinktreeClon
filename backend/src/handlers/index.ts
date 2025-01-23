@@ -120,8 +120,15 @@ export const uploadImage = async (req : Request, res : Response) => {
 
     try {
         form.parse(req, (err, fields, files) => {
-
-            cloudinary.uploader.upload(files.file[0].filepath, {
+            if(err){
+                const error = new Error("No se pudo subir la imagen")
+                res.status(500).json({error: error.message})
+                return
+            }
+            if (!files.image) {
+                return res.status(400).json({ error: 'La imagen es requerida' });
+            }
+            cloudinary.uploader.upload(files.image[0].filepath, {
                 public_id : uuid()
             }, async (error, result) => {
                 if(error){
@@ -140,5 +147,6 @@ export const uploadImage = async (req : Request, res : Response) => {
     } catch (e) {
         const error = new Error('Error al subir la imagen')
         res.status(500).json({ error: error.message })
+        return
     }
 }

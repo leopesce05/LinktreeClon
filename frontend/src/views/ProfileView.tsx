@@ -3,7 +3,7 @@ import {useQueryClient, useMutation} from '@tanstack/react-query';
 
 import { ProfileForm, User } from '../types';
 import ErrorMessage from '../components/ErrorMessage';
-import { updateProfile } from '../api/DevTreeAPI';
+import { updateProfile, uploadImage } from '../api/DevTreeAPI';
 import {toast} from 'sonner';
 
 
@@ -28,8 +28,24 @@ export default function ProfileView() {
         }
     })
 
+    const uploadImageMutation = useMutation({
+        mutationFn: uploadImage,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            console.log(data)
+        }
+    })
+
     const handleUserProfileForm = async (formData : ProfileForm)=>{
         updateProfileMutation.mutate(formData)
+    }
+
+    const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files && e.target.files.length > 0){
+            uploadImageMutation.mutate(e.target.files[0])
+        }
     }
     
     return (
@@ -69,7 +85,7 @@ export default function ProfileView() {
 
             <div className="grid grid-cols-1 gap-2">
                 <label
-                    htmlFor="handle"
+                    htmlFor="image"
                 >Imagen:</label>
                 <input
                     id="image"
@@ -77,7 +93,7 @@ export default function ProfileView() {
                     name="handle"
                     className="border-none bg-slate-100 rounded-lg p-2"
                     accept="image/*"
-                    onChange={ () => {} }
+                    onChange={ handleChange}
                 />
             </div>
 
