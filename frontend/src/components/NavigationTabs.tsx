@@ -15,7 +15,7 @@ export default function NavigationTabs() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const handleChange = (e : React.ChangeEvent<HTMLSelectElement> ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         navigate(e.target.value)
     }
 
@@ -29,10 +29,10 @@ export default function NavigationTabs() {
                     id="tabs"
                     name="tabs"
                     className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                    onChange={ handleChange }
+                    onChange={handleChange}
                 >
                     {tabs.map((tab) => (
-                        <option 
+                        <option
                             value={tab.href}
                             key={tab.name}
                         >{tab.name}</option>

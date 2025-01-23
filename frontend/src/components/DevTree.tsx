@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
-import { ArrowRightStartOnRectangleIcon} from '@heroicons/react/20/solid';
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/20/solid';
 import NavigationTabs from "../components/NavigationTabs";
 import { User } from "../types";
 
@@ -8,9 +8,9 @@ type DevTreeProps = {
     data: User
 }
 
-export default function DevTree({data} : DevTreeProps) {
+export default function DevTree({ data }: DevTreeProps) {
     return (
-    <>
+        <>
             <header className="bg-slate-800 py-5">
                 <div className="mx-auto max-w-5xl flex flex-col md:flex-row items-center md:justify-between">
                     <div className="w-full p-5 lg:p-0 md:w-1/3">
@@ -19,7 +19,7 @@ export default function DevTree({data} : DevTreeProps) {
                     <div className="md:w-1/3 md:flex md:justify-end">
                         <button
                             className=" bg-lime-500 p-2 text-slate-800 uppercase font-black text-xs rounded-lg cursor-pointer"
-                            onClick={() => {}}
+                            onClick={() => { }}
                         >
                             Cerrar Sesión
                             <ArrowRightStartOnRectangleIcon className="h-4 w-4 inline-block ml-2" />
@@ -31,7 +31,7 @@ export default function DevTree({data} : DevTreeProps) {
                 <main className="mx-auto max-w-5xl p-10 md:p-0">
                     <NavigationTabs />
                     <div className="flex justify-end">
-                        <Link 
+                        <Link
                             className="font-bold text-right text-slate-800 text-2xl"
                             to={''}
                             target="_blank"
@@ -41,7 +41,7 @@ export default function DevTree({data} : DevTreeProps) {
 
                     <div className="flex flex-col md:flex-row gap-10 mt-10">
                         <div className="flex-1 ">
-                                <Outlet />
+                            <Outlet />
                         </div>
                         <div className="w-full md:w-96 bg-slate-800 px-5 py-10 space-y-6">
 
