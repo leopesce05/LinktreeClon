@@ -1,11 +1,12 @@
 import type { Request, Response } from "express";
 import slug from 'slug'
-import User from "../models/User";
 import formidable from 'formidable'
+import {v4 as uuid} from 'uuid'
 
 import {hashPassword, comparePassword} from '../utils/auth'
 import { generateJWT } from "../utils/jwt";
 import cloudinary from "../config/cloudinary";
+import User from "../models/User";
 
 export const createAccount = async (req : Request, res : Response) => {
     
@@ -120,9 +121,20 @@ export const uploadImage = async (req : Request, res : Response) => {
     try {
         form.parse(req, (err, fields, files) => {
 
-            cloudinary.uploader.upload(files.file[0].filepath, {}, async (error, result) => {
-                console.log(error)
-                console.log(result)
+            cloudinary.uploader.upload(files.file[0].filepath, {
+                public_id : uuid()
+            }, async (error, result) => {
+                if(error){
+                    const error = new Error("No se pudo subir la imagen")
+                    res.status(500).json({error: error.message})
+                    return
+                }
+                if(result){
+                    req.user.image = result.secure_url
+                    await req.user.save()
+                    res.status(200).json({image: result.secure_url})
+                    return
+                }
             })
         })
     } catch (e) {
