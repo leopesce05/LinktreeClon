@@ -4,6 +4,7 @@ export type User = {
     handle: string
     _id:string
     description: string
+    image:string
 }
 
 export type RegisterForm = User & {
