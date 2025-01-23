@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
-    "dev:api" : "nodemon src/index.ts --api",
+    "dev:api": "nodemon src/index.ts --api",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -21,12 +21,15 @@
   },
   "homepage": "https://github.com/leopesce05/LinktreeClon#readme",
   "dependencies": {
+    "@types/formidable": "^3.4.5",
     "bcrypt": "^5.1.1",
+    "cloudinary": "^2.5.1",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
+    "formidable": "^3.5.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
     "slug": "^10.0.0"
