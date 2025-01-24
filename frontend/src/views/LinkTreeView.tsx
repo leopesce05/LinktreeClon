@@ -10,9 +10,8 @@ import { SocialNetwork, User } from "../types"
 export default function LinkTreeView() {
 
     const queryClient = useQueryClient()
-    const user: User = queryClient.getQueryData(['user'])!
-    const links: SocialNetwork[] = JSON.parse(user.links)
-    
+
+
     const [devTreeLinks, setDevTreeLinks] = useState(social)
 
 
@@ -48,7 +47,18 @@ export default function LinkTreeView() {
                 ? { ...link, url: e.target.value }
                 : { ...link }
         )
+        const user: User = queryClient.getQueryData(['user'])!
+        const links: SocialNetwork[] = JSON.parse(user.links)
+        const updatedItems = links.map(link => {
+            return link.name == e.target.name?{...link,url:e.target.value}:link
+        })
         setDevTreeLinks(updatedLinks)
+        queryClient.setQueryData(['user'], (prevData: User) => {
+            return {
+                ...prevData,
+                links: JSON.stringify(updatedItems)
+            }
+        })
     }
 
 
@@ -64,8 +74,8 @@ export default function LinkTreeView() {
         })
         setDevTreeLinks(updatedLinks)
 
-
-
+        const user: User = queryClient.getQueryData(['user'])!
+        const links: SocialNetwork[] = JSON.parse(user.links)
 
         let updatedItems: SocialNetwork[] = []
 
@@ -77,12 +87,9 @@ export default function LinkTreeView() {
             }
             updatedItems = [...links, newItem]
         } else {
-            updatedItems = links
-                .filter(link => (link.name !== socialNetwork))
-                .map((item, index) => ({
-                    ...item,
-                    id: index,
-                }));
+            updatedItems = updatedLinks.map((link, index) => {
+                return { ...link, id: index}
+            })
         }
         queryClient.setQueryData(['user'], (prevData: User) => {
             return {

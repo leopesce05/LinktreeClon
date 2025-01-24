@@ -32,9 +32,12 @@ export default function DevTree({ data }: DevTreeProps) {
         
         setEnabledLinks(orderLinks)
 
+        const disabledLinks = JSON.parse(data.links).filter((link: SocialNetwork) => !link.enabled)
+        
         queryClient.setQueryData(['user'], (prev: User) => {
-            return { ...prev, links: JSON.stringify([...orderLinks]) }
+            return { ...prev, links: JSON.stringify([...orderLinks , ...disabledLinks]) }
         })
+        console.log([...orderLinks , ...disabledLinks])
     }
 
     return (
