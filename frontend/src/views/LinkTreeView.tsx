@@ -3,7 +3,7 @@ import { social } from "../data/social"
 import { useEffect, useState } from 'react'
 import { isValidUrl } from "../utils"
 import { toast } from 'sonner'
-import { keepPreviousData, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { updateProfile } from "../api/DevTreeAPI"
 import { SocialNetwork, User } from "../types"
 
@@ -50,7 +50,7 @@ export default function LinkTreeView() {
     const handleEnableLink = (socialNetwork: string) => {
         const updatedLinks = devTreeLinks.map(link => {
             if (link.name === socialNetwork) {
-                if(isValidUrl(link.url) || link.enabled){
+                if(isValidUrl(link.url)){
                     return { ...link, enabled: !link.enabled }
                 }
                 toast.error('La URL no es valida')
@@ -76,7 +76,6 @@ export default function LinkTreeView() {
                 id: index,
             }));
         }
-        console.log(updatedItems)
         queryClient.setQueryData(['user'], (prevData : User) => {
             return {
                 ...prevData,
