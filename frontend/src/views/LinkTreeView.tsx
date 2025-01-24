@@ -10,26 +10,32 @@ import { SocialNetwork, User } from "../types"
 export default function LinkTreeView() {
 
     const queryClient = useQueryClient()
-    const user : User = queryClient.getQueryData(['user'])!
-
+    const user: User = queryClient.getQueryData(['user'])!
+    const links: SocialNetwork[] = JSON.parse(user.links)
+    
     const [devTreeLinks, setDevTreeLinks] = useState(social)
 
-    const {mutate} = useMutation({
-        mutationFn : updateProfile,
+
+    const { mutate } = useMutation({
+        mutationFn: async () => {
+            const user: User = queryClient.getQueryData(['user'])!
+            await updateProfile(user)
+        },
         onError: (error) => {
             toast.error(error.message)
-        }, 
+        },
         onSuccess: () => {
             toast.success("Perfil actualizado correctamente")
         }
     })
 
     useEffect(() => {
+        const user: User = queryClient.getQueryData(['user'])!
         const userLinks = JSON.parse(user.links)
         const updatedData = devTreeLinks.map(item => {
-            const link : SocialNetwork = userLinks.find((link:SocialNetwork) => link.name === item.name)
-            if(link){
-                return {...item, url : link.url, enabled : link.enabled}
+            const link: SocialNetwork = userLinks.find((link: SocialNetwork) => link.name === item.name)
+            if (link) {
+                return { ...item, url: link.url, enabled: link.enabled }
             }
             return item
         })
@@ -37,20 +43,19 @@ export default function LinkTreeView() {
     }, [])
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const updatedLinks = devTreeLinks.map(link => 
-            link.name === e.target.name 
-                ? { ...link, url: e.target.value} 
-                : {...link}
-            )
+        const updatedLinks = devTreeLinks.map(link =>
+            link.name === e.target.name
+                ? { ...link, url: e.target.value }
+                : { ...link }
+        )
         setDevTreeLinks(updatedLinks)
     }
 
-    const links : SocialNetwork[] = JSON.parse(user.links)
 
     const handleEnableLink = (socialNetwork: string) => {
         const updatedLinks = devTreeLinks.map(link => {
             if (link.name === socialNetwork) {
-                if(isValidUrl(link.url)){
+                if (isValidUrl(link.url)) {
                     return { ...link, enabled: !link.enabled }
                 }
                 toast.error('La URL no es valida')
@@ -59,29 +64,34 @@ export default function LinkTreeView() {
         })
         setDevTreeLinks(updatedLinks)
 
-        let updatedItems : SocialNetwork[] = []
+
+
+
+        let updatedItems: SocialNetwork[] = []
 
         const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork)
-        if(selectedSocialNetwork?.enabled){
-            const newItem : SocialNetwork = {
+        if (selectedSocialNetwork?.enabled) {
+            const newItem: SocialNetwork = {
                 ...selectedSocialNetwork,
                 id: links.length
             }
             updatedItems = [...links, newItem]
-        }else{
+        } else {
             updatedItems = links
-            .filter(link => link.name !== socialNetwork)
-            .map((item, index) => ({
-                ...item,
-                id: index,
-            }));
+                .filter(link => (link.name !== socialNetwork))
+                .map((item, index) => ({
+                    ...item,
+                    id: index,
+                }));
         }
-        queryClient.setQueryData(['user'], (prevData : User) => {
+        queryClient.setQueryData(['user'], (prevData: User) => {
             return {
                 ...prevData,
                 links: JSON.stringify(updatedItems)
             }
         })
+
+
     }
 
     return (
@@ -95,12 +105,12 @@ export default function LinkTreeView() {
                         handleEnableLink={handleEnableLink}
                     />
                 ))}
-                <button 
+                <button
                     className="bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded font-bold"
                     onClick={() => {
-                        mutate(user)
+                        mutate()
                     }}
-                    >
+                >
                     Guardar Cambios
                 </button>
             </div>

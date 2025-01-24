@@ -29,6 +29,7 @@ export default function DevTree({ data }: DevTreeProps) {
 
         const updatedLinks = arrayMove(enabledLinks, prevIndex, nextIndex)
         const orderLinks  = updatedLinks.map((link, index) => ({ ...link, id: index }))
+        
         setEnabledLinks(orderLinks)
 
         queryClient.setQueryData(['user'], (prev: User) => {
