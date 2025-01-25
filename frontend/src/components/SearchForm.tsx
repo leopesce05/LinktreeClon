@@ -1,4 +1,5 @@
 import ErrorMessage from "./ErrorMessage";
+import slugify from "react-slugify";
 import {useForm} from "react-hook-form";
 
 type SearchHandleForm = {
@@ -17,7 +18,8 @@ export default function SearchForm() {
     const handle = watch("handle");
 
     const handleSearch = (data: SearchHandleForm) => {
-        console.log(data.handle);
+        const handleSlug = slugify(handle.replace(/\s+/g, ''));
+        console.log(handleSlug);
     }
 
     return (
