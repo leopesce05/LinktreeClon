@@ -157,7 +157,7 @@ export const getUserByHandle = async (req : Request, res : Response) => {
             res.status(400).json({error: 'El handle es requerido'})
             return
         }
-        const user = await User.findOne({handle})
+        const user = await User.findOne({handle}).select('-password -_id -__v -email -name')
         if(!user){
             res.status(404).json({error: 'Usuario no encontrado'})
             return
@@ -165,6 +165,27 @@ export const getUserByHandle = async (req : Request, res : Response) => {
         res.status(200).json(user)
     } catch (e) {
         const error = new Error('Error al buscar el usuario')
+        res.status(500).json({ error: error.message })
+        return
+    }
+}
+
+export const searchByHandle = async (req : Request, res : Response) => {
+    try {
+        const {handle} = req.body
+        if(!handle){
+            res.status(400).json({error: 'El handle es requerido'})
+            return
+        }
+        const user = await User.findOne({handle}).select('handle')
+        console.log(user)
+        if(user){
+            res.status(400).json({error: `${handle} ya esta en uso`})
+            return
+        }
+        res.status(200).json({data: `${handle} esta disponible`})
+    } catch (e) {
+        const error = new Error('Error al buscar handle')
         res.status(500).json({ error: error.message })
         return
     }
