@@ -1,4 +1,4 @@
-import { getUser, updateProfile, uploadImage } from './handlers/index';
+import { getUser, getUserByHandle, updateProfile, uploadImage } from './handlers/index';
 import {Router, Request, Response} from 'express'
 import { body } from 'express-validator';
 
@@ -45,6 +45,14 @@ router.post('/user/image',
     authenticate,
     uploadImage
 )
+
+router.get('/:handle',
+    [
+        body('handle').notEmpty().withMessage('El handle no puede ir vacio'),
+    ],
+    getUserByHandle
+)
+
 
 
 

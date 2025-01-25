@@ -79,13 +79,11 @@ export const login = async (req : Request, res : Response) => {
     return
 }
 
-
 export const getUser = async (req : Request, res : Response) => {
 
     res.status(200).json(req.user)
 
 }
-
 
 export const updateProfile = async (req : Request, res : Response) => {
     try {
@@ -147,6 +145,26 @@ export const uploadImage = async (req : Request, res : Response) => {
         })
     } catch (e) {
         const error = new Error('Error al subir la imagen')
+        res.status(500).json({ error: error.message })
+        return
+    }
+}
+
+export const getUserByHandle = async (req : Request, res : Response) => {
+    try {
+        const {handle} = req.params
+        if(!handle){
+            res.status(400).json({error: 'El handle es requerido'})
+            return
+        }
+        const user = await User.findOne({handle})
+        if(!user){
+            res.status(404).json({error: 'Usuario no encontrado'})
+            return
+        }
+        res.status(200).json(user)
+    } catch (e) {
+        const error = new Error('Error al buscar el usuario')
         res.status(500).json({ error: error.message })
         return
     }
