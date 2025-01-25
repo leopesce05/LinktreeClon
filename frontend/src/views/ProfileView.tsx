@@ -50,7 +50,7 @@ export default function ProfileView() {
 
     const handleUserProfileForm = async (formData : ProfileForm)=>{
         const usuario : User = {
-            ...data,
+            ...queryClient.getQueryData(['user'])!,
             handle: formData.handle,
             description: formData.description
         }

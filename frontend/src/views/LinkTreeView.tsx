@@ -16,10 +16,7 @@ export default function LinkTreeView() {
 
 
     const { mutate } = useMutation({
-        mutationFn: async () => {
-            const user: User = queryClient.getQueryData(['user'])!
-            await updateProfile(user)
-        },
+        mutationFn: updateProfile,
         onError: (error) => {
             toast.error(error.message)
         },
@@ -115,7 +112,7 @@ export default function LinkTreeView() {
                 <button
                     className="bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded font-bold"
                     onClick={() => {
-                        mutate()
+                        mutate(queryClient.getQueryData(['user'])!)
                     }}
                 >
                     Guardar Cambios
