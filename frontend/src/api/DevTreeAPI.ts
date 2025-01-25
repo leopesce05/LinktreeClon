@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import api from '../config/axios';
-import { User } from '../types';
+import { User, UserHandle } from '../types';
 import API_ROUTES from './apiRoutes';
 
 export const getUser = async () => {
@@ -32,6 +32,18 @@ export const uploadImage = async (image : File) => {
         formData.append('image', image);
         const {data} = await api.post<User>(API_ROUTES.uploadImage, formData);
         return data;
+    } catch (error) {
+        if(axios.isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+}
+
+export const getUserByHandle = async (handle: string) => {
+    try {
+        const url = `/${handle}`
+        const {data} = await api<UserHandle>(url);
+        return data
     } catch (error) {
         if(axios.isAxiosError(error) && error.response){
             throw new Error(error.response.data.error)

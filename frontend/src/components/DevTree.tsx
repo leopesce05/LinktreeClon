@@ -1,20 +1,19 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { DndContext, DragEndEvent, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable'
-import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/20/solid';
 import NavigationTabs from "../components/NavigationTabs";
 import { SocialNetwork, User } from "../types";
 import { useEffect, useState } from 'react'
 import DevTreeLink from "./DevTreeLink";
 import { useQueryClient } from "@tanstack/react-query";
+import Header from "./Header";
 
 type DevTreeProps = {
     data: User
 }
 
 export default function DevTree({ data }: DevTreeProps) {
-    
     const queryClient = useQueryClient()
     const [enabledLinks, setEnabledLinks] = useState<SocialNetwork[]>(JSON.parse(data.links).filter((link: SocialNetwork) => link.enabled))
 
@@ -42,22 +41,7 @@ export default function DevTree({ data }: DevTreeProps) {
 
     return (
         <>
-            <header className="bg-slate-800 py-5">
-                <div className="mx-auto max-w-5xl flex flex-col md:flex-row items-center md:justify-between">
-                    <div className="w-full p-5 lg:p-0 md:w-1/3">
-                        <img src="/logo.svg" className="w-full block" />
-                    </div>
-                    <div className="md:w-1/3 md:flex md:justify-end">
-                        <button
-                            className=" bg-lime-500 p-2 text-slate-800 uppercase font-black text-xs rounded-lg cursor-pointer"
-                            onClick={() => { }}
-                        >
-                            Cerrar Sesión
-                            <ArrowRightStartOnRectangleIcon className="h-4 w-4 inline-block ml-2" />
-                        </button>
-                    </div>
-                </div>
-            </header>
+            <Header />
             <div className="bg-gray-100  min-h-screen py-10">
                 <main className="mx-auto max-w-5xl p-10 md:p-0">
                     <NavigationTabs />
