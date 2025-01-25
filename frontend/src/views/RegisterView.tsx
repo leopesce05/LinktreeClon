@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import {toast} from 'sonner'
 import axios from 'axios';
@@ -11,10 +11,12 @@ import API_ROUTES from '../api/apiRoutes';
 
 export default function RegisterView(){
 
+    const location = useLocation();
+
     const initialValues : RegisterForm = {
         name: '',
         email: '',
-        handle: '',
+        handle: location.state?.handle || '',
         password: '',
         password_confirmation: ''
     }

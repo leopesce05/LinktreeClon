@@ -183,7 +183,7 @@ export const searchByHandle = async (req : Request, res : Response) => {
             res.status(400).json({error: `${handle} ya esta en uso`})
             return
         }
-        res.status(200).json({data: `${handle} esta disponible`})
+        res.status(200).send( `${handle} esta disponible`)
     } catch (e) {
         const error = new Error('Error al buscar handle')
         res.status(500).json({ error: error.message })

@@ -5,6 +5,7 @@ const API_ROUTES = {
     getUser : '/user',
     updateUser: '/user',
     uploadImage: '/user/image',
+    searchHandle: '/search',
 }
 
 export default API_ROUTES;

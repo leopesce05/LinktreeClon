@@ -50,3 +50,17 @@ export const getUserByHandle = async (handle: string) => {
         }
     }
 }
+
+export const searchHandle = async (handle: string) => {
+    try {
+        const url = `${API_ROUTES.searchHandle}`
+        const {data} = await api.post<string>(url,{
+            handle
+        });
+        return data
+    } catch (error) {
+        if(axios.isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+}
