@@ -10,13 +10,14 @@ export default function AppLayout() {
     const { data, isLoading, isError } = useQuery( {
         queryFn: getUser,
         queryKey: ['user'],
-        retry: 1,
+        retry: 2,
         refetchOnWindowFocus: false
     })
 
-    if(isLoading) return <Loader />
-    
-    if(isError) return <Navigate to='/auth/login' />
-    
-    if (data) return <DevTree data={data}/> 
+    if(isLoading) return <Loader />    
+
+    if (data) return <DevTree data={data}/>
+
+    if(isError) return <Navigate to='/auth/login' replace/>
+
 }

@@ -36,7 +36,7 @@ export default function LinkTreeView() {
             return item
         })
         setDevTreeLinks(updatedData)
-    }, [])
+    },[])
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const updatedLinks = devTreeLinks.map(link =>

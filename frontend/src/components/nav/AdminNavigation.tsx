@@ -1,7 +1,10 @@
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
+import {useQueryClient} from "@tanstack/react-query";
 
 export default function AdminNavigation() {
+
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   return (
     <>
@@ -9,6 +12,7 @@ export default function AdminNavigation() {
         className=" bg-lime-500 p-2 text-slate-800 uppercase font-black text-xs rounded-lg cursor-pointer"
         onClick={() => {
           localStorage.removeItem("AUTH_TOKEN");
+          queryClient.invalidateQueries({queryKey: ['user']});
           navigate("/");
         }}
       >

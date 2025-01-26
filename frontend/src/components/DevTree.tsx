@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import { DndContext, DragEndEvent, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable'

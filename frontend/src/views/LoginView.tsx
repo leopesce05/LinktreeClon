@@ -1,41 +1,44 @@
 import { Link } from 'react-router-dom';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import {toast} from 'sonner';
+import { toast } from 'sonner';
 
-import {LoginForm} from '../types';
+import { LoginForm } from '../types';
 import ErrorMessage from '../components/ErrorMessage';
 import api from '../config/axios';
 import API_ROUTES from '../api/apiRoutes';
+import { useNavigate } from 'react-router-dom';
+import {useQueryClient} from "@tanstack/react-query";
 
-export default function LoginView(){
+export default function LoginView() {
 
-    const initialValues : LoginForm = {
+    const queryClient = useQueryClient()
+    queryClient.setQueryData(['user'],null)
+    const navigate = useNavigate();
+    const initialValues: LoginForm = {
         email: '',
         password: ''
     }
 
-    const {register, handleSubmit, formState : {errors}} = useForm({defaultValues : initialValues});
+    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
 
-    const handleLogin = async (formData : LoginForm) => {
+    const handleLogin = async (formData: LoginForm) => {
         try {
-            const {data} = await api.post(API_ROUTES.inicioSesion, formData);
-            
+            const { data } = await api.post(API_ROUTES.inicioSesion, formData);
             localStorage.setItem('AUTH_TOKEN', data);
-
-            toast.success("Inicio de sesion exitoso");
+            navigate('/admin');
         } catch (error) {
-            if(axios.isAxiosError(error) && error.response){
+            if (axios.isAxiosError(error) && error.response) {
                 toast.error(error.response.data.error);
             }
         }
     }
 
-    return(
+    return (
         <>
             <h1 className='text-4xl text-white font-bold text-center'>Inicia sesion</h1>
-            
-            <form 
+
+            <form
                 onSubmit={handleSubmit(handleLogin)}
                 className="bg-white px-5 py-20 rounded-lg space-y-10 mt-10"
                 noValidate
@@ -83,8 +86,8 @@ export default function LoginView(){
             </form>
 
             <nav className='mt-10'>
-                <Link 
-                    to="/auth/register" 
+                <Link
+                    to="/auth/register"
                     className='text-center text-white text-lg block'
                 >No tienes Cuenta? Registrate
                 </Link>
